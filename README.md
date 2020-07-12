@@ -10,4 +10,4 @@
 - unstated-next
 - grommet `(visual)`
 - grommet-icons `(visual)`
-- styled--components `(visual)`
+- styled-components `(visual)`

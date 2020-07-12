@@ -1,38 +1,19 @@
 import React from "react";
-import { Box, Grommet } from "grommet";
+import { Link, Switch, Route } from "react-router-dom";
+import { Box, Grommet, Nav, Button, Sidebar } from "grommet";
+import { theme } from "./misc/theme";
 
-const theme = {
-  global: {
-    colors: {
-      brand: "#8A9BA8",
-    },
-    font: {
-      family: "Open Sans",
-      size: "18px",
-      height: "20px",
-    },
-  },
-};
+import { Protected } from "./routes/Protected";
+import { Unprotected } from "./routes/Unprotected";
 
-const AppBar = (props) => (
-  <Box
-    tag="header"
-    direction="row"
-    align="center"
-    justify="between"
-    background="brand"
-    pad={{ left: "medium", right: "small", vertical: "small" }}
-    elevation="medium"
-    style={{ zIndex: "1" }}
-    {...props}
-  />
-);
+import { Auth } from "./states/Auth";
 
 export const App = () => {
+  const auth = Auth.useContainer();
+
   return (
     <Grommet theme={theme} full>
       <Box fill>
-        <AppBar>Hello Grommet!</AppBar>
         <Box direction="row" flex overflow={{ horizontal: "hidden" }}>
           <Box
             width="small"
@@ -41,10 +22,37 @@ export const App = () => {
             align="center"
             justify="center"
           >
-            sidebar
+            <Nav gap="small">
+              <Sidebar header={<>Hello, {auth.state.username || "Guest"}</>}>
+                <Button hoverIndicator onClick={auth.login}>
+                  Login
+                </Button>
+                <Button hoverIndicator onClick={auth.logout}>
+                  Logout
+                </Button>
+                <hr />
+                <Link to="/">
+                  <Button hoverIndicator>Unprotected Route</Button>
+                </Link>
+                <Link to="/protected">
+                  <Button hoverIndicator>Protected Route</Button>
+                </Link>
+              </Sidebar>
+            </Nav>
           </Box>
           <Box flex align="center" justify="center">
-            app body
+            {auth.state.loading ? (
+              "Loading..."
+            ) : (
+              <Switch>
+                <Route exact path="/" component={Unprotected} />
+                <auth.ProtectedRoute
+                  exact
+                  path="/protected"
+                  component={Protected}
+                />
+              </Switch>
+            )}
           </Box>
         </Box>
       </Box>

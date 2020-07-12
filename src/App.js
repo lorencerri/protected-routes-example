@@ -23,14 +23,21 @@ export const App = () => {
             justify="center"
           >
             <Nav gap="small">
-              <Sidebar header={<>Hello, {auth.state.username || "Guest"}</>}>
-                <Button hoverIndicator onClick={auth.login}>
-                  Login
-                </Button>
-                <Button hoverIndicator onClick={auth.logout}>
-                  Logout
-                </Button>
-                <hr />
+              <Sidebar
+                header={
+                  <>
+                    <span style={{ paddingBottom: 25 }}>
+                      Hello, {auth.state.username || "Guest"}
+                    </span>
+                    <Button hoverIndicator onClick={auth.login}>
+                      Login
+                    </Button>
+                    <Button hoverIndicator onClick={auth.logout}>
+                      Logout
+                    </Button>
+                  </>
+                }
+              >
                 <Link to="/">
                   <Button hoverIndicator>Unprotected Route</Button>
                 </Link>

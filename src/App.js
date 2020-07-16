@@ -13,6 +13,10 @@ export const App = () => {
 
   return (
     <Grommet theme={theme} full>
+      {/** State Visualization */}
+      <div fill style={{ position: "absolute", top: 0, right: 0 }}>
+        auth.state: {JSON.stringify(auth.state)}
+      </div>
       <Box fill>
         <Box direction="row" flex overflow={{ horizontal: "hidden" }}>
           <Box
